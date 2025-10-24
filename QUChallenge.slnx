@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="QUChallenge/QUChallenge.csproj" />
+  <Project Path="QUCHallengeTests/QUCHallengeTests.csproj" Id="1ad7e336-604e-43fb-bdf0-e106d9804ba6" />
+</Solution>
