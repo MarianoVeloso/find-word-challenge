@@ -78,7 +78,7 @@ public class WordFinderIntegrationTests
     [Fact]
     public async Task FindAsync_RealWordSearchPuzzle_ShouldFindCorrectWords()
     {
-        // Arrange - Real word search puzzle (like the one in the image)
+        // Arrange
         var wordSearchMatrix = new[]
         {
             "RAICNEREFIDTM",
@@ -109,12 +109,12 @@ public class WordFinderIntegrationTests
         var result = await finder.FindAsync(puzzleWords);
 
         // Assert
-        result.Should().Contain("DIFERENCIAR"); // First row, horizontal
-        result.Should().Contain("TRATAR");     // Found in matrix
-        result.Should().Contain("IDEAL");      // Found in matrix
-        result.Should().Contain("PRECIO");     // Found in matrix
-        result.Should().Contain("HORIZON");    // Found in matrix
-        result.Should().Contain("CARDIO");     // Last row, horizontal
+        result.Should().Contain("DIFERENCIAR");
+        result.Should().Contain("TRATAR");
+        result.Should().Contain("IDEAL");
+        result.Should().Contain("PRECIO");
+        result.Should().Contain("HORIZON");
+        result.Should().Contain("CARDIO");
         result.Should().NotContain("NOTFOUND");
         result.Should().NotContain("MISSING");
         result.Should().NotContain("ABSENT");
@@ -123,7 +123,7 @@ public class WordFinderIntegrationTests
     [Fact]
     public async Task FindAsync_LargeRealWorldScenario_ShouldPerformWell()
     {
-        // Arrange - Simulate a real-world word search with many words
+        // Arrange
         var matrix = GenerateRealWorldMatrix();
         var wordStream = GenerateRealWorldWordStream();
         var finder = new WordFinder(matrix);
@@ -149,7 +149,7 @@ public class WordFinderIntegrationTests
         var wordStream = GenerateLargeWordStream(1000);
         var finder = new WordFinder(matrix);
 
-        // Act - Run multiple concurrent searches
+        // Act
         var tasks = Enumerable.Range(0, 10)
             .Select(_ => finder.FindAsync(wordStream))
             .ToArray();
@@ -160,14 +160,12 @@ public class WordFinderIntegrationTests
         results.Should().HaveCount(10);
         results.Should().AllSatisfy(result => result.Should().NotBeNull());
 
-        // All results should be identical
         var firstResult = results[0];
         results.Should().AllSatisfy(result => result.Should().BeEquivalentTo(firstResult));
     }
 
     private static string[] GenerateRealWorldMatrix()
     {
-        // Generate a realistic word search matrix
         var random = new Random(42);
         var size = 15;
         var matrix = new string[size];
@@ -177,7 +175,6 @@ public class WordFinderIntegrationTests
             var row = new char[size];
             for (int j = 0; j < size; j++)
             {
-                // Use more common letters to increase word probability
                 var commonLetters = "ETAOINSHRDLCUMWFGYPBVKJXQZ";
                 row[j] = commonLetters[random.Next(commonLetters.Length)];
             }
@@ -189,7 +186,6 @@ public class WordFinderIntegrationTests
 
     private static string[] GenerateRealWorldWordStream()
     {
-        // Generate a realistic word stream with common English words
         var commonWords = new[]
         {
             "THE", "AND", "FOR", "ARE", "BUT", "NOT", "YOU", "ALL", "CAN", "HER",
@@ -206,7 +202,7 @@ public class WordFinderIntegrationTests
         };
 
         var random = new Random(42);
-        var wordStream = new string[2000]; // 2000 words total
+        var wordStream = new string[2000];
 
         for (int i = 0; i < wordStream.Length; i++)
         {
@@ -216,7 +212,6 @@ public class WordFinderIntegrationTests
             }
             else
             {
-                // Repeat some common words with higher frequency
                 wordStream[i] = commonWords[random.Next(Math.Min(20, commonWords.Length))];
             }
         }
