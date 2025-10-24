@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QUChallenge\QUChallenge.csproj" />
+    <ProjectReference Include="..\QUChallenge\FindWord.csproj" />
   </ItemGroup>
 
 </Project>
